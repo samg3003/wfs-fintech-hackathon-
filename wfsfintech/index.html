@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AdvisorIQ — Options-Informed Portfolio Intelligence</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <!-- Login screen -->
+  <div id="loginScreen" class="screen" style="display: none;">
+    <div class="login-box">
+      <h1 class="logo">AdvisorIQ</h1>
+      <p class="tagline">Options-informed portfolio intelligence</p>
+      <form id="loginForm" class="login-form">
+        <input type="email" name="email" placeholder="Email" required autocomplete="email" />
+        <input type="password" name="password" placeholder="Password" required autocomplete="current-password" />
+        <p id="loginError" class="error" style="display: none;"></p>
+        <button type="submit">Sign in</button>
+      </form>
+      <p class="login-hint">Demo: advisor@advisoriq.com / advisor123</p>
+    </div>
+  </div>
+
+  <!-- App (dashboard + onboarding) -->
+  <div id="appScreen" class="screen" style="display: none;">
+  <header class="header">
+    <div class="header-inner">
+      <h1 class="logo">AdvisorIQ</h1>
+      <p class="tagline">Options-informed portfolio intelligence</p>
+      <nav class="nav">
+        <a href="#" data-view="dashboard">Dashboard</a>
+        <a href="#" data-view="onboarding">Onboard client</a>
+        <button type="button" id="logoutBtn" class="nav-logout">Logout</button>
+      </nav>
+      <div class="regime-badge" id="regimeBadge">—</div>
+    </div>
+  </header>
+
+  <main class="main">
+    <div id="dashboardSections">
+    <section class="section dashboard-section">
+      <h2 class="section-title">Market snapshot</h2>
+      <p class="section-desc">Current volatility regime and options market stress.</p>
+      <div class="metrics-grid">
+        <div class="metric-card">
+          <div class="metric-label">Regime</div>
+          <div class="metric-value" id="metricRegime">—</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-label">Avg IV (universe)</div>
+          <div class="metric-value" id="metricAvgIv">—</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-label">High fear names</div>
+          <div class="metric-value" id="metricHighFear">—</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-label">Max IVR</div>
+          <div class="metric-value" id="metricMaxIvr">—</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section dashboard-section">
+      <h2 class="section-title">Client Triage</h2>
+      <p class="section-desc">Scan your book in seconds. Cards surface drift, IVR alerts, and risk misalignment.</p>
+      <div class="client-grid" id="clientGrid"></div>
+    </section>
+
+    <section class="section dashboard-section">
+      <h2 class="section-title">IVR Signals</h2>
+      <p class="section-desc">Where the options market is pricing elevated fear vs. model-predicted realised vol.</p>
+      <div class="signals-table-wrap">
+        <table class="signals-table" id="signalsTable">
+          <thead>
+            <tr>
+              <th>Symbol</th>
+              <th>IV</th>
+              <th>Pred. HV</th>
+              <th>IVR</th>
+              <th>IV %ile</th>
+              <th>Regime</th>
+              <th>Fear</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody id="signalsBody"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="section dashboard-section">
+      <h2 class="section-title">Stress Tests</h2>
+      <p class="section-desc">Historical and hypothetical scenarios: current vs. IV-adjusted portfolio impact.</p>
+      <div class="stress-grid" id="stressGrid"></div>
+    </section>
+    </div>
+
+    <!-- Onboarding view -->
+    <section id="onboardingView" class="section" style="display: none;">
+      <h2 class="section-title">Onboard new client</h2>
+      <p class="section-desc">Add a new client to your book. They will appear in the triage dashboard.</p>
+      <form id="onboardingForm" class="onboarding-form">
+        <div class="form-group">
+          <label for="clientName">Full name</label>
+          <input type="text" id="clientName" name="name" required placeholder="e.g. Jane Smith" />
+        </div>
+        <div class="form-group">
+          <label for="riskLabel">Risk profile</label>
+          <select id="riskLabel" name="risk_label" required>
+            <option value="CONSERVATIVE">Conservative (target vol ~8%)</option>
+            <option value="MODERATE" selected>Moderate (target vol ~12%)</option>
+            <option value="AGGRESSIVE">Aggressive (target vol ~18%)</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="targetVol">Target annual volatility (%)</label>
+          <input type="number" id="targetVol" name="target_annual_vol" min="4" max="35" step="0.5" value="12" required />
+        </div>
+        <p id="onboardingError" class="error" style="display: none;"></p>
+        <button type="submit">Add client</button>
+      </form>
+      <p id="onboardingSuccess" class="success-msg" style="display: none;"></p>
+    </section>
+  </main>
+
+  </div>
+
+  <aside class="modal" id="modal" aria-hidden="true">
+    <div class="modal-backdrop" id="modalBackdrop"></div>
+    <div class="modal-content">
+      <button class="modal-close" id="modalClose" aria-label="Close">×</button>
+      <div class="modal-body" id="modalBody"></div>
+    </div>
+  </aside>
+
+  <script src="app.js"></script>
+</body>
+</html>

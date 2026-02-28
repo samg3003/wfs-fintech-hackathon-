@@ -1,0 +1,11 @@
+fastapi
+uvicorn
+numpy
+pandas
+scikit-learn
+xgboost
+hmmlearn
+pydantic
+python-jose[cryptography]
+yfinance
+py_vollib
